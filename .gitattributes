@@ -2,7 +2,7 @@
 * text=auto
 *.qmd linguist-detectable=true
 *.qmd linguist-documentation=false
-*.qmd linguist-language=Quarto Markdown
+*.qmd linguist-language="Quarto Markdown"
 *.R linguist-detectable=true
 *.R linguist-documentation=false
 *.R linguist-language=R
