@@ -1,0 +1,11 @@
+﻿Dragon,Breath Weapon Shape,Damage Type,Saving Throw
+Black,Line,Acid,Reflex
+Blue,Line,Electricity,Reflex
+Green,Cone,Poison,Fortitude
+Red,Cone,Fire,Reflex
+White,Cone,Cold,Reflex
+Brass,Line,Fire,Reflex
+Bronze,Line,Electricity,Reflex
+Copper,Line,Acid,Reflex
+Gold,Cone,Fire,Reflex
+Silver,Cone,Cold,Reflex

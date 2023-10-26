@@ -1,0 +1,512 @@
+allCurrencies <- NULL
+if (grepl(", ", value)) {
+delim <- ", "
+} else if (grepl(",", value)) {
+delim <- ","
+}
+allCurrencies <- strsplit(value, delim)[[1]]
+number <- 0
+for (n in allCurrencies){
+m <- parse_number(n)
+if (grepl('gp', n,ignore.case = TRUE)) {
+number <- number + m
+} else if (grepl('sp', n,ignore.case = TRUE)) {
+number <- number + m/10
+} else if (grepl('cp', n,ignore.case = TRUE)) {
+number <- number + m/100
+} else if (grepl('pp', n,ignore.case = TRUE)) {
+number <- number + m*10
+}
+}
+} else {
+number <- parse_number(value)
+if (grepl('sp', value,ignore.case = TRUE)) {
+number <- number/10
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number/100
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number*10
+}
+}
+if (append_GP) {
+gp_conversion <- paste(number,"gp", sep =" ")
+} else {
+gp_conversion <- number
+}
+}
+seed <- Sys.time()
+Ancestries <- tibble(read.csv("Ancestries.csv")) %>% filter(Level.0.Character.Override != "Unavailable")
+Backgrounds <- tibble(read.csv("Backgrounds.csv")) %>% filter(RarityOverride != "Unavailable")
+simpleWeapons <- tibble(read.csv("simple_weapons.csv")) %>% filter(Available == "TRUE")
+adventuringGear <- tibble(read.csv("adventuring_gear.csv")) %>% filter(Available == "TRUE") %>% mutate(Bulk = replace(Bulk, Bulk == "",0)) %>% mutate(Bulk = replace(Bulk, Bulk == "L",0))
+if (weapon$Bulk !='L') {
+currentBulk <- weapon$Bulk
+} else {
+currentBulk <- 0
+}
+maxBulk <- Bonus$Strength + 5
+goldRemaining <- 5
+if (weapon$Price != "") {
+goldRemaining <- 5 - gp_conversion(weapon$Price)
+}
+equipment <- sample_n(adventuringGear, 1)
+i <- 0
+repeat {
+nequip <- sample_n(adventuringGear, 1)
+#gold check
+gp <- gp_conversion(nequip$Price)
+if (goldRemaining - gp <= 0) {
+break
+}
+#bulk Check
+if (currentBulk - nequip$Bulk[1] <= 0) {
+break
+}
+# True up
+goldRemaining <- goldRemaining - gp
+currentBulk <- currentBulk + nequip$Bulk[1]
+equipment <- add_row(equipment, nequip)
+if (currentBulk > maxBulk | i > 1000) {
+break
+}
+i=i+1
+}
+nequip$Bulk[1]
+currentBulk
+currentBulk - nequip$Bulk[1]
+# Modifier function
+Modifier <- function(skill) {
+Modifier <- floor((skill-10)/2)
+}
+# Currency Conversion function
+gp_conversion <- function(value, append_GP = FALSE) {
+if (grepl(",", value)) {
+allCurrencies <- NULL
+if (grepl(", ", value)) {
+delim <- ", "
+} else if (grepl(",", value)) {
+delim <- ","
+}
+allCurrencies <- strsplit(value, delim)[[1]]
+number <- 0
+for (n in allCurrencies){
+m <- parse_number(n)
+if (grepl('gp', n,ignore.case = TRUE)) {
+number <- number + m
+} else if (grepl('sp', n,ignore.case = TRUE)) {
+number <- number + m/10
+} else if (grepl('cp', n,ignore.case = TRUE)) {
+number <- number + m/100
+} else if (grepl('pp', n,ignore.case = TRUE)) {
+number <- number + m*10
+}
+}
+} else {
+number <- parse_number(value)
+if (grepl('sp', value,ignore.case = TRUE)) {
+number <- number/10
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number/100
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number*10
+}
+}
+if (append_GP) {
+gp_conversion <- paste(number,"gp", sep =" ")
+} else {
+gp_conversion <- number
+}
+}
+seed <- Sys.time()
+Ancestries <- tibble(read.csv("Ancestries.csv")) %>% filter(Level.0.Character.Override != "Unavailable")
+Backgrounds <- tibble(read.csv("Backgrounds.csv")) %>% filter(RarityOverride != "Unavailable")
+simpleWeapons <- tibble(read.csv("simple_weapons.csv")) %>% filter(Available == "TRUE")
+adventuringGear <- tibble(read.csv("adventuring_gear.csv")) %>% filter(Available == "TRUE") %>% mutate(Bulk = replace(Bulk, Bulk == "",0)) %>% mutate(Bulk = replace(Bulk, Bulk == "L",0)) %>% mutate(Bulk = as.integer(Bulk))
+if (weapon$Bulk !='L') {
+currentBulk <- weapon$Bulk
+} else {
+currentBulk <- 0
+}
+maxBulk <- Bonus$Strength + 5
+goldRemaining <- 5
+if (weapon$Price != "") {
+goldRemaining <- 5 - gp_conversion(weapon$Price)
+}
+equipment <- sample_n(adventuringGear, 1)
+i <- 0
+repeat {
+nequip <- sample_n(adventuringGear, 1)
+#gold check
+gp <- gp_conversion(nequip$Price)
+if (goldRemaining - gp <= 0) {
+break
+}
+#bulk Check
+if (currentBulk - nequip$Bulk[1] <= 0) {
+break
+}
+# True up
+goldRemaining <- goldRemaining - gp
+currentBulk <- currentBulk + nequip$Bulk[1]
+equipment <- add_row(equipment, nequip)
+if (currentBulk > maxBulk | i > 1000) {
+break
+}
+i=i+1
+}
+if (weapon$Bulk !='L') {
+currentBulk <- weapon$Bulk
+} else {
+currentBulk <- 0
+}
+maxBulk <- Bonus$Strength + 5
+goldRemaining <- 5
+if (weapon$Price != "") {
+goldRemaining <- 5 - gp_conversion(weapon$Price)
+}
+equipment <- sample_n(adventuringGear, 1)
+i <- 0
+repeat {
+nequip <- sample_n(adventuringGear, 1)
+#gold check
+gp <- gp_conversion(nequip$Price)
+if (goldRemaining - gp <= 0) {
+next
+}
+#bulk Check
+if (currentBulk - nequip$Bulk[1] <= 0) {
+next
+}
+# True up
+goldRemaining <- goldRemaining - gp
+currentBulk <- currentBulk + nequip$Bulk[1]
+equipment <- add_row(equipment, nequip)
+if (currentBulk > maxBulk | i > 100) {
+break
+}
+i=i+1
+}
+if (weapon$Bulk !='L') {
+currentBulk <- weapon$Bulk
+} else {
+currentBulk <- 0
+}
+maxBulk <- Bonus$Strength + 5
+goldRemaining <- 5
+if (weapon$Price != "") {
+goldRemaining <- 5 - gp_conversion(weapon$Price)
+}
+equipment <- sample_n(adventuringGear, 1)
+i <- 0
+repeat {
+nequip <- sample_n(adventuringGear, 1)
+#gold check
+gp <- gp_conversion(nequip$Price)
+if (goldRemaining - gp <= 0) {
+next
+}
+#bulk Check
+if (currentBulk + nequip$Bulk[1] > maxBulk) {
+next
+}
+# True up
+goldRemaining <- goldRemaining - gp
+currentBulk <- currentBulk + nequip$Bulk[1]
+equipment <- add_row(equipment, nequip)
+if (currentBulk > maxBulk | i > 100) {
+break
+}
+i=i+1
+}
+# Modifier function
+Modifier <- function(skill) {
+Modifier <- floor((skill-10)/2)
+}
+# Currency Conversion function
+gp_conversion <- function(value, append_GP = FALSE) {
+if (grepl(",", value)) {
+allCurrencies <- NULL
+if (grepl(", ", value)) {
+delim <- ", "
+} else if (grepl(",", value)) {
+delim <- ","
+}
+allCurrencies <- strsplit(value, delim)[[1]]
+number <- 0
+for (n in allCurrencies){
+m <- parse_number(n)
+if (grepl('gp', n,ignore.case = TRUE)) {
+number <- number + m
+} else if (grepl('sp', n,ignore.case = TRUE)) {
+number <- number + m/10
+} else if (grepl('cp', n,ignore.case = TRUE)) {
+number <- number + m/100
+} else if (grepl('pp', n,ignore.case = TRUE)) {
+number <- number + m*10
+}
+}
+} else {
+number <- parse_number(value)
+if (grepl('sp', value,ignore.case = TRUE)) {
+number <- number/10
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number/100
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number*10
+}
+}
+if (append_GP) {
+gp_conversion <- paste(number,"gp", sep =" ")
+} else {
+gp_conversion <- number
+}
+}
+seed <- Sys.time()
+Ancestries <- tibble(read.csv("Ancestries.csv")) %>% filter(Level.0.Character.Override != "Unavailable")
+Backgrounds <- tibble(read.csv("Backgrounds.csv")) %>% filter(RarityOverride != "Unavailable")
+simpleWeapons <- tibble(read.csv("simple_weapons.csv")) %>% filter(Available == "TRUE")
+adventuringGear <- tibble(read.csv("adventuring_gear.csv")) %>% filter(Available == "TRUE") %>% mutate(Bulk = replace(Bulk, Bulk == "",0)) %>% mutate(Bulk = replace(Bulk, Bulk == "L",0)) %>% mutate(Bulk = as.integer(Bulk) )%>% mutate(Price = replace(Price, Price == "",0))
+if (weapon$Bulk !='L') {
+currentBulk <- weapon$Bulk
+} else {
+currentBulk <- 0
+}
+maxBulk <- Bonus$Strength + 5
+goldRemaining <- 5
+if (weapon$Price != "") {
+goldRemaining <- 5 - gp_conversion(weapon$Price)
+}
+equipment <- sample_n(adventuringGear, 1)
+i <- 0
+repeat {
+nequip <- sample_n(adventuringGear, 1)
+#gold check
+gp <- gp_conversion(nequip$Price)
+if (goldRemaining - gp <= 0) {
+next
+}
+#bulk Check
+if (currentBulk + nequip$Bulk[1] > maxBulk) {
+next
+}
+# True up
+goldRemaining <- goldRemaining - gp
+currentBulk <- currentBulk + nequip$Bulk[1]
+equipment <- add_row(equipment, nequip)
+if (currentBulk > maxBulk | i > 100) {
+break
+}
+i=i+1
+}
+currentBulk + nequip$Bulk[1]
+nequip$Bulk[1]
+# Modifier function
+Modifier <- function(skill) {
+Modifier <- floor((skill-10)/2)
+}
+# Currency Conversion function
+gp_conversion <- function(value, append_GP = FALSE) {
+if (grepl(",", value)) {
+allCurrencies <- NULL
+if (grepl(", ", value)) {
+delim <- ", "
+} else if (grepl(",", value)) {
+delim <- ","
+}
+allCurrencies <- strsplit(value, delim)[[1]]
+number <- 0
+for (n in allCurrencies){
+m <- parse_number(n)
+if (grepl('gp', n,ignore.case = TRUE)) {
+number <- number + m
+} else if (grepl('sp', n,ignore.case = TRUE)) {
+number <- number + m/10
+} else if (grepl('cp', n,ignore.case = TRUE)) {
+number <- number + m/100
+} else if (grepl('pp', n,ignore.case = TRUE)) {
+number <- number + m*10
+}
+}
+} else {
+number <- parse_number(value)
+if (grepl('sp', value,ignore.case = TRUE)) {
+number <- number/10
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number/100
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number*10
+}
+}
+if (append_GP) {
+gp_conversion <- paste(number,"gp", sep =" ")
+} else {
+gp_conversion <- number
+}
+}
+seed <- Sys.time()
+Ancestries <- tibble(read.csv("Ancestries.csv")) %>% filter(Level.0.Character.Override != "Unavailable")
+Backgrounds <- tibble(read.csv("Backgrounds.csv")) %>% filter(RarityOverride != "Unavailable")
+simpleWeapons <- tibble(read.csv("simple_weapons.csv")) %>% filter(Available == "TRUE")
+adventuringGear <- tibble(read.csv("adventuring_gear.csv")) %>% filter(Available == "TRUE") %>% mutate(Bulk = replace(Bulk, Bulk == "",0)) %>% mutate(Bulk = replace(Bulk, Bulk == "L",0)) %>% mutate(Bulk = replace_na(Bulk,0)) %>% mutate(Bulk = as.integer(Bulk) )%>% mutate(Price = replace(Price, Price == "",0))
+mutate(adventuringGear, Bulk = replace_na(Bulk,0))
+adventuringGear<-mutate(adventuringGear, Bulk = replace_na(Bulk,0))
+# Modifier function
+Modifier <- function(skill) {
+Modifier <- floor((skill-10)/2)
+}
+# Currency Conversion function
+gp_conversion <- function(value, append_GP = FALSE) {
+if (grepl(",", value)) {
+allCurrencies <- NULL
+if (grepl(", ", value)) {
+delim <- ", "
+} else if (grepl(",", value)) {
+delim <- ","
+}
+allCurrencies <- strsplit(value, delim)[[1]]
+number <- 0
+for (n in allCurrencies){
+m <- parse_number(n)
+if (grepl('gp', n,ignore.case = TRUE)) {
+number <- number + m
+} else if (grepl('sp', n,ignore.case = TRUE)) {
+number <- number + m/10
+} else if (grepl('cp', n,ignore.case = TRUE)) {
+number <- number + m/100
+} else if (grepl('pp', n,ignore.case = TRUE)) {
+number <- number + m*10
+}
+}
+} else {
+number <- parse_number(value)
+if (grepl('sp', value,ignore.case = TRUE)) {
+number <- number/10
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number/100
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number*10
+}
+}
+if (append_GP) {
+gp_conversion <- paste(number,"gp", sep =" ")
+} else {
+gp_conversion <- number
+}
+}
+seed <- Sys.time()
+Ancestries <- tibble(read.csv("Ancestries.csv")) %>% filter(Level.0.Character.Override != "Unavailable")
+Backgrounds <- tibble(read.csv("Backgrounds.csv")) %>% filter(RarityOverride != "Unavailable")
+simpleWeapons <- tibble(read.csv("simple_weapons.csv")) %>% filter(Available == "TRUE")
+adventuringGear <- tibble(read.csv("adventuring_gear.csv")) %>% filter(Available == "TRUE") %>% mutate(Bulk = replace(Bulk, Bulk == "",0)) %>% mutate(Bulk = replace(Bulk, Bulk == "L",0)) %>% mutate(Bulk = replace_na(Bulk,0)) %>% mutate(Price = replace(Price, Price == "",0))
+# Modifier function
+Modifier <- function(skill) {
+Modifier <- floor((skill-10)/2)
+}
+# Currency Conversion function
+gp_conversion <- function(value, append_GP = FALSE) {
+if (grepl(",", value)) {
+allCurrencies <- NULL
+if (grepl(", ", value)) {
+delim <- ", "
+} else if (grepl(",", value)) {
+delim <- ","
+}
+allCurrencies <- strsplit(value, delim)[[1]]
+number <- 0
+for (n in allCurrencies){
+m <- parse_number(n)
+if (grepl('gp', n,ignore.case = TRUE)) {
+number <- number + m
+} else if (grepl('sp', n,ignore.case = TRUE)) {
+number <- number + m/10
+} else if (grepl('cp', n,ignore.case = TRUE)) {
+number <- number + m/100
+} else if (grepl('pp', n,ignore.case = TRUE)) {
+number <- number + m*10
+}
+}
+} else {
+number <- parse_number(value)
+if (grepl('sp', value,ignore.case = TRUE)) {
+number <- number/10
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number/100
+} else if (grepl('cp', value,ignore.case = TRUE)) {
+number <- number*10
+}
+}
+if (append_GP) {
+gp_conversion <- paste(number,"gp", sep =" ")
+} else {
+gp_conversion <- number
+}
+}
+seed <- Sys.time()
+Ancestries <- tibble(read.csv("Ancestries.csv")) %>% filter(Level.0.Character.Override != "Unavailable")
+Backgrounds <- tibble(read.csv("Backgrounds.csv")) %>% filter(RarityOverride != "Unavailable")
+simpleWeapons <- tibble(read.csv("simple_weapons.csv")) %>% filter(Available == "TRUE")
+adventuringGear <- tibble(read.csv("adventuring_gear.csv")) %>% filter(Available == "TRUE") %>% mutate(Bulk = replace(Bulk, Bulk == "",0)) %>% mutate(Bulk = replace(Bulk, Bulk == "L",0)) %>% mutate(Bulk = as.integer(Bulk)) %>% mutate(Bulk = replace_na(Bulk,0)) %>% mutate(Price = replace(Price, Price == "",0))
+if (weapon$Bulk !='L') {
+currentBulk <- weapon$Bulk
+} else {
+currentBulk <- 0
+}
+maxBulk <- Bonus$Strength + 5
+goldRemaining <- 5
+if (weapon$Price != "") {
+goldRemaining <- 5 - gp_conversion(weapon$Price)
+}
+equipment <- sample_n(adventuringGear, 1)
+i <- 0
+repeat {
+nequip <- sample_n(adventuringGear, 1)
+#gold check
+gp <- gp_conversion(nequip$Price)
+if (goldRemaining - gp <= 0) {
+next
+}
+#bulk Check
+if (currentBulk + nequip$Bulk[1] > maxBulk) {
+next
+}
+# True up
+goldRemaining <- goldRemaining - gp
+currentBulk <- currentBulk + nequip$Bulk[1]
+equipment <- add_row(equipment, nequip)
+if (currentBulk > maxBulk | i > 100) {
+break
+}
+i=i+1
+}
+if (weapon$Bulk !='L') {
+currentBulk <- weapon$Bulk
+} else {
+currentBulk <- 0
+}
+maxBulk <- Bonus$Strength + 5
+goldRemaining <- 5
+if (weapon$Price != "") {
+goldRemaining <- 5 - gp_conversion(weapon$Price)
+}
+equipment <- sample_n(adventuringGear, 1)
+i <- 0
+repeat {
+nequip <- sample_n(adventuringGear, 1)
+#gold check
+gp <- gp_conversion(nequip$Price)
+if (goldRemaining - gp <= 0) {
+next
+}
+#bulk Check
+if (currentBulk + nequip$Bulk[1] > maxBulk) {
+next
+}
+# True up
+goldRemaining <- goldRemaining - gp
+currentBulk <- currentBulk + nequip$Bulk[1]
+equipment <- add_row(equipment, nequip)
+if (currentBulk > maxBulk | i > 100) {
+break
+}
+i=i+1
+}

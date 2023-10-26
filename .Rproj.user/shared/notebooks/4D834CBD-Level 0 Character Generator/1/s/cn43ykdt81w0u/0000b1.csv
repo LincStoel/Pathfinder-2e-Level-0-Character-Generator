@@ -1,0 +1,2 @@
+"0","kable(weapon, format = ""html"", escape = FALSE, align = ""llcccccccccc"") %>%"
+"0","      kable_styling(bootstrap_options = c(""hover"", ""condensed"", ""responsive""), position = ""center"", full_width = F)"

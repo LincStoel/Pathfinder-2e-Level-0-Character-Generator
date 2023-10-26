@@ -1,0 +1,47 @@
+﻿Name,Source,Weapon type,Weapon category,Weapon group,Trait,Damage,Hands,Range,Reload,Bulk,Price,Level,Available
+Air Repeater,Guns & Gears pg. 152,Ranged,Simple,Firearm,"Agile, Repeating, Uncommon",1d4 P,1,30 ft.,0,L,5 gp,0,FALSE
+Alchemical Crossbow,The Fall of Plaguestone pg. 56,Ranged,Simple,Bow,"Alchemical, Uncommon",1d8 P,2,30 ft.,1,1,25 gp,0,FALSE
+Atlatl,Treasure Vault pg. 30,Ranged,Simple,Dart,Propulsive,1d6 P,1,60 ft.,1,1,2 sp,0,TRUE
+Battle Lute,Pathfinder #164: Hands of the Devil pg. 73,Melee,Simple,Club,"Shove, Two-Hand 1d8, Uncommon",1d4 B,1,,,1,15 gp,0,FALSE
+Blowgun,Core Rulebook pg. 281,Ranged,Simple,Dart,"Agile, Nonlethal",1:00 PM,1,20 ft.,1,L,1 sp,0,TRUE
+Clan Dagger,Core Rulebook pg. 280,Melee,Simple,Knife,"Agile, Dwarf, Parry, Uncommon, Versatile B",1d4 P,1,,,L,2 gp,0,FALSE
+Club,Core Rulebook pg. 280,Melee,Simple,Club,Thrown 10 ft.,1d6 B,1,,,1,,0,TRUE
+Coat Pistol,Guns & Gears pg. 152,Ranged,Simple,Firearm,"Concealable, Concussive, Fatal d8, Uncommon",1d4 P,1,30 ft.,1,L,6 gp,0,FALSE
+Corset Knife,Treasure Vault pg. 26,Melee,Simple,Knife,"Agile, Concealable, Finesse, Thrown 10 ft.",1d4 P,1,,,L,3 sp,0,FALSE
+Crossbow,Core Rulebook pg. 281,Ranged,Simple,Bow,,1d8 P,2,120 ft.,1,1,3 gp,0,TRUE
+Dagger,Core Rulebook pg. 280,Melee,Simple,Knife,"Agile, Finesse, Thrown 10 ft., Versatile S",1d4 P,1,,,L,2 sp,0,TRUE
+Dart,Core Rulebook pg. 281,Ranged,Simple,Dart,"Agile, Thrown",1d4 P,1,20 ft.,,L,1 cp,0,TRUE
+Fire Lance,Guns & Gears pg. 153,Ranged,Simple,Firearm,"Fatal d10, Uncommon",1d6 P,2,10 ft.,2,2,5 gp,0,FALSE
+Flintlock Musket,Guns & Gears pg. 153,Ranged,Simple,Firearm,"Concussive, Fatal d10, Uncommon",1d6 P,2,70 ft.,1,1,7 gp,0,TRUE
+Flintlock Pistol,Guns & Gears pg. 153,Ranged,Simple,Firearm,"Concussive, Fatal d8, Uncommon",1d4 P,1,40 ft.,1,1,6 gp,0,TRUE
+Forked Bipod,Guns & Gears pg. 152,Melee,Simple,Spear,"Agile, Deadly d6, Finesse",1d4 P,1,,,L,3 sp,0,FALSE
+Frying Pan,Treasure Vault pg. 27,Melee,Simple,Club,"Fatal d8, Halfling",1d4 B,1,,,L,1 sp,0,TRUE
+Gauntlet,Core Rulebook pg. 280,Melee,Simple,Brawling,"Agile, Free-Hand",1d4 B,1,,,L,2 sp,0,TRUE
+Hand Cannon,Guns & Gears pg. 153,Ranged,Simple,Firearm,"Modular B, P, or S, Uncommon",1d6 modular,1,30 ft.,1,1,5 gp,0,TRUE
+Hand Crossbow,Core Rulebook pg. 281,Ranged,Simple,Bow,,1d6 P,1,60 ft.,1,L,3 gp,0,TRUE
+Heavy Crossbow,Core Rulebook pg. 281,Ranged,Simple,Bow,,1d10 P,2,120 ft.,2,2,4 gp,0,TRUE
+Javelin,Core Rulebook pg. 282,Ranged,Simple,Dart,Thrown,1d6 P,1,30 ft.,,L,1 sp,0,TRUE
+Juggling Club,Pathfinder #151: The Show Must Go On pg. 77,Melee,Simple,Club,"Agile, Nonlethal, Thrown 20 ft., Uncommon",1d4 B,1,,,L,1 sp,0,TRUE
+Katar,Core Rulebook pg. 280,Melee,Simple,Knife,"Agile, Deadly d6, Monk, Uncommon",1d4 P,1,,,L,3 sp,0,TRUE
+Knuckle Duster,Guns & Gears pg. 152,Melee,Simple,Brawling,"Agile, Free-Hand, Monk",1d4 B,1,,,L,3 sp,0,TRUE
+Light Mace,Core Rulebook pg. 280,Melee,Simple,Club,"Agile, Finesse, Shove",1d4 B,1,,,L,4 sp,0,TRUE
+Long Air Repeater,Guns & Gears pg. 153,Ranged,Simple,Firearm,"Repeating, Uncommon",1d4 P,1,60 ft.,0,1,9 gp,0,FALSE
+Longspear,Core Rulebook pg. 280,Melee,Simple,Spear,Reach,1d8 P,2,,,2,5 sp,0,TRUE
+Mace,Core Rulebook pg. 280,Melee,Simple,Club,Shove,1d6 B,1,,,1,1 gp,0,TRUE
+Morningstar,Core Rulebook pg. 280,Melee,Simple,Club,Versatile P,1d6 B,1,,,1,1 gp,0,TRUE
+Nightstick,Pathfinder #157: Devil at the Dreaming Palace pg. 78,Melee,Simple,Club,"Agile, Finesse, Nonlethal, Parry, Uncommon",1d4 B,1,,,L,1 gp,0,TRUE
+Poi,Pathfinder #151: The Show Must Go On pg. 77,Melee,Simple,Flail,"Agile, Backswing, Finesse, Nonlethal, Uncommon",1d4 B,1,,,L,2 sp,0,FALSE
+Reinforced Frame,Grand Bazaar pg. 72,Melee,Simple,Club,"Agile, Attached, Free-Hand",1d4 B,1,,,,5 sp,0,FALSE
+Shears,Bestiary 2 pg. 184,Melee,Simple,Knife,"Deadly d8, Finesse, Uncommon, Versatile P",1d4 S,1,,,L,5 sp,0,TRUE
+Shield Pistol,Firebrands pg. 83,Ranged,Simple,Firearm,"Attached to shield, Concussive, Fatal d8, Uncommon",1d4 P,1,20 ft.,1,1,6 gp,0,FALSE
+Sickle,Core Rulebook pg. 280,Melee,Simple,Knife,"Agile, Finesse, Trip",1d4 S,1,,,L,2 sp,0,TRUE
+Sling,Core Rulebook pg. 282,Ranged,Simple,Sling,Propulsive,1d6 B,1,50 ft.,1,L,,0,TRUE
+Spear,Core Rulebook pg. 280,Melee,Simple,Spear,Thrown 20 ft.,1d6 P,1,,,1,1 sp,0,TRUE
+Spiked Gauntlet,Core Rulebook pg. 280,Melee,Simple,Brawling,"Agile, Free-Hand",1d4 P,1,,,L,3 sp,0,TRUE
+Staff,Core Rulebook pg. 280,Melee,Simple,Club,Two-Hand 1d8,1d4 B,1,,,1,,0,TRUE
+Stiletto Pen,PFS Guide pg. 30,Melee,Simple,Dart,"Agile, Concealable, Finesse, Thrown 10 ft., Uncommon",1d4 P,1,,,L,8 gp,1,FALSE
+Throwing Knife,"Grand Bazaar pg. 106, Pathfinder #151: The Show Must Go On pg. 77",Melee,Simple,Knife,"Agile, Finesse, Thrown 20 ft.",1d4 P,1,,,L,3 sp,0,TRUE
+Thundermace,Grand Bazaar pg. 106,Melee,Simple,Club,"Backswing, Uncommon",1d8 B,2,,,2,2 sp,0,FALSE
+Tri-Bladed Katar,Grand Bazaar pg. 106,Melee,Simple,Knife,"Disarm, Fatal d8, Monk, Uncommon",1d4 P,1,,,L,8 sp,0,FALSE
+Wheel Blades,Grand Bazaar pg. 72,Melee,Simple,Sword,"Agile, Attached, Free-Hand",1d4 S,1,,,,5 sp,0,FALSE
+Wheel Spikes,Grand Bazaar pg. 72,Melee,Simple,Knife,"Agile, Attached, Free-Hand",1d4 P,1,,,,5 sp,0,FALSE

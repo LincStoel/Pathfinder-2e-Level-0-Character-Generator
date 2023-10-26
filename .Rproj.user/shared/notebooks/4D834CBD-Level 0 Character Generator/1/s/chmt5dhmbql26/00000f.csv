@@ -1,0 +1,8 @@
+"0","if (Background$FeatLink2[1] != """"){"
+"0","  splitIt <- strsplit(Background$Feat[1], "", "")[[1]]"
+"0","  featDisplay <- paste(""**Background Feats:** "", ""["", splitIt[1], ""]("", Background$FeatLink[1], ""), "", ""["", splitIt[2], ""]("", Background$FeatLink2[1], "")"", sep = """")"
+"0","} else if (Background$Feat[1] != """") {"
+"0","    featDisplay <- paste(""**Background Feat:** ["", Background$Feat[1], ""]("",Background$FeatLink[1], "")"", sep = """")"
+"0","} else {"
+"0","  featDisplay <- """""
+"0","}"

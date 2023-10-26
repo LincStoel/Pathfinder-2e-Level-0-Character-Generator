@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+<script src="lib/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="lib/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="lib/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="lib/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="lib/kePrint-0.0.1/kePrint.js"></script>
+<link href="lib/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+</head>
+<body>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Name </th>
+   <th style="text-align:left;"> Source </th>
+   <th style="text-align:left;"> Rarity </th>
+   <th style="text-align:left;"> Trait </th>
+   <th style="text-align:right;"> Level </th>
+   <th style="text-align:left;"> Price </th>
+   <th style="text-align:left;"> Bulk </th>
+   <th style="text-align:left;"> Usage </th>
+   <th style="text-align:right;"> Count </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Waterproof Carrying Case </td>
+   <td style="text-align:left;"> Guns &amp; Gears pg. 179 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 2 sp </td>
+   <td style="text-align:left;"> L </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Signal Whistle </td>
+   <td style="text-align:left;"> Core Rulebook pg. 291 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 8 cp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ruler </td>
+   <td style="text-align:left;"> PFS Guide pg. 34 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 5 sp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> held in 1 hand </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Religious Symbol (Wooden) </td>
+   <td style="text-align:left;"> Core Rulebook pg. 291 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 sp </td>
+   <td style="text-align:left;"> L </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Pinwheel </td>
+   <td style="text-align:left;"> Grand Bazaar pg. 59 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 cp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> held in 1 hand </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Net </td>
+   <td style="text-align:left;"> Advanced Player's Guide pg. 249 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 gp </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Mug </td>
+   <td style="text-align:left;"> Core Rulebook pg. 288 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 cp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Merchant's Scale </td>
+   <td style="text-align:left;"> Core Rulebook pg. 288 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 2 sp </td>
+   <td style="text-align:left;"> L </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Marbles </td>
+   <td style="text-align:left;"> Grand Bazaar pg. 58 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 2 sp </td>
+   <td style="text-align:left;"> L </td>
+   <td style="text-align:left;"> held in 1 hand </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Lantern (Bull's-Eye) </td>
+   <td style="text-align:left;"> Core Rulebook pg. 290 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 gp </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Kite </td>
+   <td style="text-align:left;"> Grand Bazaar pg. 58 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 4 cp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> held in 1 hand </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Flint and Steel </td>
+   <td style="text-align:left;"> Core Rulebook pg. 290 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 5 cp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Earplugs </td>
+   <td style="text-align:left;"> Guns &amp; Gears pg. 179, PFS Guide pg. 114 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 sp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Climbing Kit </td>
+   <td style="text-align:left;"> Core Rulebook pg. 287 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 5 sp </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Clay </td>
+   <td style="text-align:left;"> Grand Bazaar pg. 58 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 cp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> held in 2 hands </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Chalk </td>
+   <td style="text-align:left;"> Core Rulebook pg. 288 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 cp (10 pieces) </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Bedroll </td>
+   <td style="text-align:left;"> Core Rulebook pg. 288 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 2 cp </td>
+   <td style="text-align:left;"> L </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Backpack </td>
+   <td style="text-align:left;"> Core Rulebook pg. 287 </td>
+   <td style="text-align:left;"> Common </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:left;"> 1 sp </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+</tbody>
+</table> <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"]]}})</script><script async src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

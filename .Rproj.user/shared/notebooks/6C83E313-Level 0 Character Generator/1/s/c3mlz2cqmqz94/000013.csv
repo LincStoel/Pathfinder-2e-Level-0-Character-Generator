@@ -1,0 +1,2 @@
+"0","kable(equipment) %>% "
+"0","  kable_styling(position = ""center"")"

@@ -1,0 +1,587 @@
+---
+execute:
+  echo: false
+editor: 
+  mode: source
+format:
+  html:
+    theme: 
+      - Darkly
+      - custom.scss
+    toc: TRUE
+    toc-location: left
+    page-layout: full
+params:
+  seed: 123
+embed-resources: true
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(plyr)
+library(stringr)
+library(tidyr)
+library(knitr)
+library(purrr)
+library(kableExtra)
+library(readr)
+```
+
+```{r include=FALSE}
+set.seed(params$seed)
+
+#Rarity Weights
+weights <- c(0.7, 0.9)
+```
+
+
+```{r include=FALSE}
+set.seed(params$seed)
+
+# Modifier function
+Modifier <- function(skill) {
+  Modifier <- floor((skill-10)/2)
+}
+
+# Currency Conversion function
+gp_conversion <- function(value, append_GP = FALSE) {
+  if (grepl(",", value)) {
+    allCurrencies <- NULL
+    
+    if (grepl(", ", value)) {
+      delim <- ", "
+    } else if (grepl(",", value)) {
+      delim <- ","
+    }
+    
+    allCurrencies <- strsplit(value, delim)[[1]]
+    
+    number <- 0
+    for (n in allCurrencies){
+      m <- parse_number(n)
+      
+      if (grepl('gp', n,ignore.case = TRUE)) {
+        number <- number + m
+      } else if (grepl('sp', n,ignore.case = TRUE)) {
+        number <- number + m/10
+      } else if (grepl('cp', n,ignore.case = TRUE)) {
+        number <- number + m/100
+      } else if (grepl('pp', n,ignore.case = TRUE)) {
+        number <- number + m*10
+      }
+    }
+  } else {
+    number <- parse_number(value)
+    
+    if (grepl('sp', value,ignore.case = TRUE)) {
+      number <- number/10
+    } else if (grepl('cp', value,ignore.case = TRUE)) {
+      number <- number/100
+    } else if (grepl('cp', value,ignore.case = TRUE)) {
+      number <- number*10
+    }
+  }
+  
+  if (append_GP) {
+    gp_conversion <- paste(number,"gp", sep =" ")
+  } else {
+    gp_conversion <- number
+  }
+}
+
+gp_all_currencies <- function(gp_decimal) {
+  value <- trunc(gp_decimal*100)/100
+
+  if(value < 0.01) {
+    gp_all_currencies <- "0gp"
+  } else {
+    if (is.character(value)) {
+      value <- parse_number(value)
+    } else {
+      value <- as.numeric(value)
+    }
+    
+    numbers <- strsplit(as.character(value*100),"")[[1]]
+    if (length(numbers) == 1) {
+      numbers <- c(0,numbers[1])
+    } else {
+      numbers <- c(numbers[length(numbers)-1], numbers[length(numbers)])
+    }
+    
+    total <- ""
+    
+    if (floor(value) == 0) {
+      gp <- 0
+    } else {
+      gp <- floor(value)
+      
+      if (gp > 1000) {
+        pp <- trunc(gp/1000)
+        gp <- gp - pp*1000
+        
+        total <- paste(pp,"pp", sep = "")
+      } else {
+        pp <- 0
+      }
+      
+      if (pp > 0) {
+        total <- paste(total,", ", gp, "gp", sep ="")
+      } else {
+        total <- paste(gp,"gp", sep = "")
+      }
+    }
+    
+    if (numbers[1] != 0) {
+      sp <- numbers[1]
+      
+      if (gp == 0) {
+        total <- paste(sp, "sp", sep ="")
+      } else {
+        total <- paste(total,", ", sp, "sp", sep ="")
+      }
+    } else {
+      sp <- 0
+    }
+    
+    if (numbers[2] != 0) {
+      cp <- numbers[2]
+      
+      if (gp == 0 && sp == 0) {
+        total <- paste(cp, "cp", sep ="")
+      } else {
+        total <- paste(total,", ", cp, "cp", sep ="")
+      }
+    }
+    
+    gp_all_currencies <- total
+  }
+}
+
+Ancestries <- tibble(read.csv("Ancestries.csv")) %>% filter(Level.0.Character.Override != "Unavailable")
+Backgrounds <- tibble(read.csv("Backgrounds.csv")) %>% filter(RarityOverride != "Unavailable")
+simpleWeapons <- tibble(read.csv("simple_weapons.csv")) %>% filter(Available == "TRUE") %>% mutate(Bulk = replace(Bulk, Bulk == "",0))
+adventuringGear <- tibble(read.csv("adventuring_gear.csv")) %>% filter(Available == "TRUE") %>% mutate(Bulk = replace(Bulk, Bulk == "",0)) %>% replace(is.na(.), "") %>% mutate(Bulk = replace_na(Bulk,0)) %>% mutate(Price = replace(Price, Price == "",0))
+swag <- tibble(read.csv("swag.csv")) %>% mutate(Bulk = replace(Bulk, Bulk == "",0)) %>% mutate(Bulk = replace_na(Bulk,0)) %>% replace(is.na(.), "") %>% mutate(Price = replace(Price, Price == "",0))
+```
+
+# Seed: `r as.character(params$seed)`
+
+```{r include=FALSE}
+set.seed(params$seed)
+
+Strength <- 10
+Dexterity <- 10
+Constitution <- 10
+Intelligence <- 10
+Wisdom <- 10
+Charisma <- 10
+
+AbilityScores <- tibble(Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma)
+
+#Ancestry
+rarity <- runif(1,0,1)
+
+if (rarity <= weights[1]) {
+  ararity <- "Common"
+} else if (rarity >= weights[1] && rarity <= weights[2]) {
+  ararity <- "Uncommon"
+} else {
+  ararity <- "Rare"
+}
+
+fAncestries <- Ancestries %>% filter(Level.0.Character.Override == ararity) %>% select(-c(1,2))
+Ancestry <- tibble(fAncestries %>% sample_n(1)) %>% replace(is.na(.), 0)
+
+#Background
+rarity <- rnorm(1)
+
+if (rarity <= weights[1]) {
+  brarity <- "Common"
+} else if (rarity >= weights[1] && rarity <= weights[2]) {
+  brarity <- "Uncommon"
+} else {
+  brarity <- "Rare"
+}
+
+fBackgrounds <- Backgrounds %>% filter(RarityOverride == ararity)
+Background <- fBackgrounds %>% sample_n(1)
+bskills <- strsplit(Background$Ability[1],", ")[[1]]
+
+#Create skill columns
+ShortSkills <- c('STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA')
+longShortSkills <- c('Strength' = 'STR', 'Dexterity' = 'DEX', 'Constitution' = 'CON', 'Intelligence' = 'INT', 'Wisdom' = 'WIS', 'Charisma' = 'CHA')
+bskills <- bskills %>% str_replace_all(longShortSkills) %>% as.vector()
+
+STR <- 0
+DEX <- 0
+CON <- 0
+INT <- 0
+WIS <- 0
+CHA <- 0
+
+Skills <- tibble(STR, DEX, CON, INT, WIS, CHA)
+
+#testing
+#Background$Other.Ability[1] <- 'You gain three free ability boosts. You choose two, and the GM chooses the third based on their first inklings of your character’s possible history.'
+if (Background$Other.Ability[1] != '') {
+  if (grepl('You gain', Background$Other.Ability[1], ignore.case = TRUE) | grepl('Choose two', Background$Other.Ability[1], ignore.case = TRUE) && grepl('ability boost', Background$Other.Ability[1], ignore.case = TRUE)) {
+    randomBoosts <- 0
+    if (grepl('three', Background$Other.Ability[1],ignore.case = TRUE)) {
+      randomBoosts <- 3
+    } else if (grepl('two', Background$Other.Ability[1],ignore.case = TRUE)) {
+      randomBoosts <- 2
+    } else if (grepl('one', Background$Other.Ability[1],ignore.case = TRUE)) {
+      randomBoosts <- 1
+    }
+    
+    Background$Other.Ability[1] <- Background$Other.Ability[1] %>% str_replace_all(longShortSkills)
+    skillOptions <- NULL
+    for (s in 1:length(ShortSkills)) {
+      if (grepl(paste(" ", ShortSkills[s]," ", sep = ""), Background$Other.Ability[1],ignore.case = TRUE)) {
+        skillOptions <- append(skillOptions,s)
+      }
+    }
+    
+    if (is.null(skillOptions)) {
+      skillOptions <- 1:length(ShortSkills)
+    } else {
+      skillOptions <- ShortSkills[skillOptions]
+    }
+    
+    if (randomBoosts > 0) {
+      if (randomBoosts > length(skillOptions)) {
+        surplusBoosts <- randomBoosts - length(skillOptions)
+        randomBoosts <- length(skillOptions)
+        randomBoosts <- sample(skillOptions, randomBoosts, replace=F)
+        
+        extraSkillOptions <-  ShortSkills
+        for (rb in randomBoosts) {
+          extraSkillOptions <-  extraSkillOptions[extraSkillOptions != rb]
+        }
+        
+        surplusBoosts <- sample(extraSkillOptions, surplusBoosts, replace=F)
+        
+        randomBoosts <- append(randomBoosts, surplusBoosts)
+      } else {
+        randomBoosts <- sample(skillOptions, randomBoosts, replace=F)
+      }
+      
+      Skills[1, randomBoosts] <- 2
+    } else {
+      randomBoosts <- NULL
+    }
+  }
+}
+
+s <- NULL
+for (s in bskills){
+  Skills[[s]] <- Skills[[s]] + 2
+}
+
+randomBoosts <- sample(ShortSkills, 4, replace=F)
+    
+Skills[1, randomBoosts] <- Skills[1, randomBoosts] + 2
+
+
+Background <- merge(Background, Skills)
+
+#Add up the scores
+AbilityScores$Strength <- AbilityScores$Strength + Background$STR + Ancestry$STR
+AbilityScores$Dexterity <- AbilityScores$Dexterity + Background$DEX + Ancestry$DEX
+AbilityScores$Constitution <- AbilityScores$Constitution + Background$CON + Ancestry$CON
+AbilityScores$Intelligence <- AbilityScores$Intelligence + Background$INT + Ancestry$INT
+AbilityScores$Wisdom <- AbilityScores$Wisdom + Background$WIS + Ancestry$WIS
+AbilityScores$Charisma <- AbilityScores$Charisma + Background$CHA + Ancestry$CHA
+
+#AbilityScores <- AbilityScores %>% replace(AbilityScores>18, 18)
+
+Bonus <- Modifier(AbilityScores)
+
+#Hit points
+HP <- Ancestry[1,'HP'] + Bonus[1,'Constitution']
+
+#Vision
+if (Ancestry$Dark.Vision[1] != 0) {
+  Vision <- "Darkvision"
+} else if (Ancestry$Low.Light.Vision[1] != 0) {
+  Vision <- "Low light vision"
+} else {
+  Vision <- "Standard Vision"
+}
+
+#extra languages
+if (grepl("One additional language", Ancestry$Extra[1], ignore.case = TRUE)) {
+  bonusLang <- 1
+} else {
+  bonusLang <- 0
+}
+
+langQuant <- Bonus$Intelligence[1] + bonusLang
+bonusLangList <- strsplit(Ancestry$Language.Options[1],", ")[[1]]
+if (langQuant > length(bonusLangList)) {
+  langSurplus <- langQuant - length(bonusLangList)
+  langQuant <- length(bonusLangList)
+  
+  extraLang <- sample(bonusLangList,langQuant, replace = FALSE) %>% paste(collapse=", ")
+  
+  Ancestry$Languages[1] <- paste(Ancestry$Languages[1], ", ", extraLang, ", and ", langSurplus, " additional language(s) of your choice upon reaching level 1.",  sep = "")
+} else {
+  langSurplus <- 0
+  
+  extraLang <- sample(bonusLangList,langQuant, replace = FALSE) %>% paste(collapse=", ")
+  
+  Ancestry$Languages[1] <- paste(Ancestry$Languages[1], extraLang, sep = ", ")
+}
+
+#Kobald
+if (Ancestry$Ancestry[1] == "Kobold") {
+  de <- tibble(read.csv("Table 1-1 Draconic Exemplars.csv"))
+  de <- sample_n(de,1)
+  newKobald <- str_replace_all(colnames(de),"\\."," ") %>% str_to_title()
+  oldKobald <- colnames(de)
+  de <- de %>% rename_with(~ newKobald, all_of(oldKobald))
+} else {
+  de <- NULL
+}
+```
+
+## Ancestry: [`r Ancestry$Ancestry[1]`](`r Ancestry$Link[1]`)
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](`r Ancestry$Image.1[1]`){width=100%}
+
+`r if (Ancestry$Image.3[1] == "") "::: {.content-hidden}"`
+![](`r Ancestry$Image.3[1]`){width=100%}
+`r if (Ancestry$Image.3[1] == "") ":::"`
+:::
+
+::: {.column width="50%"}
+`r if (Ancestry$Image.2[1] == "") "::: {.content-hidden}"`
+![](`r Ancestry$Image.2[1]`){width=100%}
+`r if (Ancestry$Image.2[1] == "") ":::"`
+
+`r if (Ancestry$Image.4[1] == "") "::: {.content-hidden}"`
+![](`r Ancestry$Image.4[1]`){width=100%}
+`r if (Ancestry$Image.4[1] == "") ":::"`
+:::
+::::
+
+`r Ancestry$Description[1]`
+
+## Background: [`r Background$Name[1]`](`r Background$NameLink[1]`)
+
+[`r Background$Summary[1]`](`r Background$NameLink[1]`)
+
+**Source:** `r Background$Source`
+
+```{r}
+if (Background$FeatLink2[1] != ""){
+  splitIt <- strsplit(Background$Feat[1], ", ")[[1]]
+  featDisplay <- paste("**Background Feats:** ", "[", splitIt[1], "](", Background$FeatLink[1], "), ", "[", splitIt[2], "](", Background$FeatLink2[1], ")", sep = "")
+} else if (Background$Feat[1] != "") {
+    featDisplay <- paste("**Background Feat:** [", Background$Feat[1], "](",Background$FeatLink[1], ")", sep = "")
+} else {
+  featDisplay <- ""
+}
+```
+`r if (featDisplay == "") "::: {.content-hidden}"`
+`r featDisplay`
+`r if (featDisplay == "") ":::"`
+
+`r if (Background$Other.Ability[1] == "") "::: {.content-hidden}"`
+**Other Background Ability:** `r Background$Other.Ability[1]`
+`r if (Background$Other.Ability[1] == "") ":::"`
+
+## Stats
+
+### Key Capabilities
+:::: {.columns}
+
+::: {.column width="25%"}
+**Hit Points:**
+
+**Movement Speed:**
+
+**Vision:**
+:::
+
+::: {.column width="25%"}
+`r HP`
+
+`r Ancestry$Speed[1]`
+
+`r Vision`
+:::
+
+::: {.column width="25%"}
+**Armor Class:**
+
+**Languages:**
+:::
+
+::: {.column width="25%"}
+`r 10+Bonus$Dexterity[1]`
+
+`r Ancestry$Languages[1]`
+:::
+::::
+
+`r if (Ancestry$Extra[1] == "" | grepl("One additional language", Ancestry$Extra[1], ignore.case = TRUE)) "::: {.content-hidden}"`
+**Extra Ability:** `r Ancestry$Extra[1]`
+`r if (Ancestry$Extra[1] == "" | grepl("One additional language", Ancestry$Extra[1], ignore.case = TRUE)) ":::"`
+
+```{r}
+if (is.null(de) == FALSE) {
+  kable(de, format = "html", escape = FALSE) %>% kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), position = "left", full_width = F)
+}
+```
+
+
+### Ability Scores
+
+```{r}
+kable(AbilityScores, align = "c", format = "html", escape = FALSE) %>% kable_styling(bootstrap_options = c("condensed", "responsive"), position = "left", full_width = F)
+```
+
+#### Bonuses
+
+```{r}
+kable(Bonus, align = "c", format = "html", escape = FALSE) %>% kable_styling(bootstrap_options = c("condensed", "responsive"), position = "left", full_width = F)
+```
+
+## Proficiencies
+
+```{r}
+set.seed(params$seed)
+
+weapon <- sample_n(simpleWeapons,1)
+new <- str_replace_all(colnames(weapon),"\\."," ") %>% str_to_title()
+old <- colnames(weapon)
+weapon <- weapon %>% rename_with(~ new, all_of(old)) %>% mutate(Trait = ifelse(Trait == "","",paste("<a href=\"","https://2e.aonprd.com/Traits.aspx","\">",Trait,"</a>",sep="")))
+
+colnames(weapon)[colnames(weapon) == 'Trait'] <- 'Weapon_Trait'
+
+weapon <- weapon %>% select_if(function(x) !(all(is.na(x)) | all(x=="")))
+
+allSkills <- tibble(read.csv('allSkills.csv'))
+if (Bonus$Intelligence > -2) {
+  trainedSkills <- sample_n(allSkills,Bonus$Intelligence + 2, replace=F)
+  trainedSkills <- add_row(trainedSkills,tibble(Skills = strsplit(Background$Skill[1],", ")[[1]]))
+  
+  trainedBullets <- paste("-",trainedSkills[1,1], sep = " ")
+  if (nrow(trainedSkills) > 1) {
+    s <- NULL
+    for (s in 2:nrow(trainedSkills)) {
+      trainedBullets <- paste(trainedBullets,"\n", "- ", trainedSkills[s,1], sep="")
+    }
+  }
+} else {
+  trainedSkills <- NULL
+}
+```
+
+**Proficiency Bonus:** +2
+
+### Basic Proficiencies
+
+-   All saving throws
+-   Perception
+-   Unarmed Attacks
+-   Unarmored defense
+-   `r weapon[1,'Name']` `r trainedBullets`
+
+## Equipment
+
+```{r}
+set.seed(params$seed)
+
+if (weapon$Bulk !='L') {
+  currentBulk <- as.integer(weapon$Bulk)
+  lightCount <- 0
+} else {
+  currentBulk <- 0
+  lightCount <- 1
+}
+maxBulk <- Bonus$Strength + 5
+
+goldRemaining <- 5
+
+equipment <- sample_n(adventuringGear, 1)
+i <- 0
+itemCount <- 1
+maxItems <- runif(1, min=8, max=15)
+repeat {
+  i=i+1
+  if (i > 100 | itemCount >= maxItems) {
+    break
+  }
+  
+  nequip <- sample_n(adventuringGear, 1)
+  floatBulk <- nequip$Bulk[1]
+  
+  #gold conversion
+  gp <- gp_conversion(nequip$Price)
+  
+  #Light handling
+  if (nequip$Bulk[1] == 'L') {
+    lightCount <- lightCount + 1
+    
+    if (lightCount == 10) {
+      floatBulk <- 1
+    } else {
+      floatBulk <- 0
+    }
+  }
+  
+  # True up
+  if (goldRemaining - gp > 0 && as.integer(currentBulk) + as.integer(floatBulk) <= maxBulk) {
+    goldRemaining <- goldRemaining - gp
+    currentBulk <- as.integer(currentBulk) + as.integer(floatBulk)
+    equipment <- add_row(equipment, nequip)
+    itemCount <- itemCount + 1
+  }
+}
+
+equipment$Count <- 1
+
+equipment <- equipment %>% add_row(swag,.before = TRUE)
+
+equipment <- select(equipment, -c(Available, Spoilers)) %>% group_by(Name) %>% ddply(.,colnames(.),summarize,Count=sum(Count)) %>% arrange(Name)
+
+#hyperlinks
+equipment <- equipment %>% mutate(Name = paste("<a href=\"",Link,"\">",Name,"</a>",sep=""))
+
+equipment <- equipment[, c(1,ncol(equipment) ,3:(ncol(equipment)-1) )]
+equipment <- equipment %>% select_if(function(x) !(all(is.na(x)) | all(x=="")))
+
+goldRemaining <- goldRemaining
+if (trunc(goldRemaining*100)>0) {
+  gp_display <- gp_all_currencies(goldRemaining)
+} else {
+  gp_display <- "0gp"
+}
+```
+
+**Bulk:** `r paste(currentBulk,"/",maxBulk)`
+
+**Spare Currency:** `r gp_display`
+
+### Weapon
+
+::: center
+```{r}
+kable(weapon, format = "html", escape = FALSE, align = "llcccccccccc") %>%
+      kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), position = "center", full_width = F)
+```
+:::
+
+### Gear
+
+```{r}
+kable(equipment, format = "html", escape = FALSE, align = "lcllcclcl") %>%
+      kable_styling(bootstrap_options = c("hover", "responsive"), position = "center")
+```
+
+

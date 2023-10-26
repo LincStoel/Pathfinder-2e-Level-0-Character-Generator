@@ -1,0 +1,3 @@
+"0","if (is.null(de) == FALSE) {"
+"0","  kable(de, format = ""html"", escape = FALSE) %>% kable_styling(bootstrap_options = c(""hover"", ""condensed"", ""responsive""), position = ""left"", full_width = F)"
+"0","}"
